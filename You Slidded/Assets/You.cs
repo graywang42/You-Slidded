@@ -1,33 +1,51 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class You : MonoBehaviour
 {
-
-    public float speed = 7;
-    private Rigidbody2D rb;
+    private void Awake()
+    {
+        Physics2D.queriesStartInColliders = false; // Disables objects from raycasting themselves
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        rb = GetComponent<Rigidbody2D>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.W)) // Testing pushing up to shoot raycast up and snap to a block above
+        {
+            RaycastHit2D hit = GetRaycastHit();
+            
+            
+            transform.position = hit.transform.position;
+            Debug.Log("W");
 
+        }
     }
 
-    private void FixedUpdate()
+    #region My Functions
+
+    private RaycastHit2D GetRaycastHit()
     {
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, UnityEngine.Vector3.up, 10);
 
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+        Debug.Log("Hit " + hit.collider + " at " + hit.collider.transform.position);
+        Tilemap tilemaphit = hit.collider.GetComponent<Tilemap>();
+        Grid gridhit = tilemaphit.layoutGrid;
+        Debug.Log("Got Tilemap " + tilemaphit + "Got Grid " + gridhit);
+        Vector3Int cellPosition = gridhit.WorldToCell(transform.position);
+        Debug.Log("Cell Position " + cellPosition);
 
-        rb.AddForce(movement * speed);
+        return hit;
     }
+
+    #endregion
 
 }
