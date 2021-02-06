@@ -21,21 +21,35 @@ public class You : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.W)) // Testing pushing up to shoot raycast up and snap to a block above
         {
-            RaycastHit2D hit = GetRaycastHit();
-            
-            
-            transform.position = hit.transform.position;
             Debug.Log("W");
+            
+            int hit = GetRaycastHit();
 
+            transform.position = transform.position + Vector3.up * hit;
+                        
+            // transform.position = hit.transform.position;
+            
         }
     }
 
     #region My Functions
 
-    private RaycastHit2D GetRaycastHit()
+    private int GetRaycastHit()
     {
+        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.up, 1);
+        int count = 0;
+        while (hit.collider == null)
+        {
+            count++;
+            Debug.Log("We've looped " + count + " time(s)");
+            hit = Physics2D.Raycast(transform.position, Vector2.up, 1 * count);
+            Debug.Log("Hit " + hit.collider);
+        }
+        
+        return count - 1;
+        
+        /*
         RaycastHit2D hit = Physics2D.Raycast(transform.position, UnityEngine.Vector3.up, 10);
-
         Debug.Log("Hit " + hit.collider + " at " + hit.collider.transform.position);
         Tilemap tilemaphit = hit.collider.GetComponent<Tilemap>();
         Grid gridhit = tilemaphit.layoutGrid;
@@ -44,6 +58,7 @@ public class You : MonoBehaviour
         Debug.Log("Cell Position " + cellPosition);
 
         return hit;
+        */
     }
 
     #endregion
