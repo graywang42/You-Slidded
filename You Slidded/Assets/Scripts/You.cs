@@ -51,6 +51,11 @@ public class You : MonoBehaviour
 
     private int GetSlideDist(Vector2 slideDir)
     { // Raycasts in input direction, returns slide distance
+        if (!Physics2D.Raycast(transform.position, slideDir, 100)) // Shoot into the void
+        {
+            Debug.Log("YOU DIEDED");
+            return 100;
+        }
         int rayLength = 1;
         while (!Physics2D.Raycast(transform.position, slideDir, rayLength)) {
             rayLength++;
@@ -71,6 +76,10 @@ public class You : MonoBehaviour
         if (Physics2D.Raycast(transform.position, Vector2.down, 1))
             pushY++;
         Vector3 pushDir = new Vector3(pushX, pushY, 0);
+        if (Physics2D.Raycast(transform.position, pushDir, 1))
+        {
+            return new Vector3(0, 0, 0);
+        }
         Debug.Log("Pushing in Direction " + pushDir);
         return pushDir;
     }
