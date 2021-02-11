@@ -74,6 +74,11 @@ public class You : MonoBehaviour
         {
             rayLength++;
         }
+        TileBase tile = GetTileHit(slideDir, rayLength);
+        if (tile.name == "Spikes")
+        {
+            Debug.Log("YOU DIEDED");
+        }
         int slideDist = rayLength - 1;
         transform.position = transform.position + (Vector3Int)slideDir * slideDist;
         UpdateCellPosition();
@@ -86,7 +91,6 @@ public class You : MonoBehaviour
         if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
         {
             TileBase tile = GetTileHit(groundDir, 1);
-            Debug.Log(tile.name);
             if (tile.name != "AntiJump")
             {
                 transform.position = transform.position - (Vector3Int)groundDir;
@@ -95,11 +99,17 @@ public class You : MonoBehaviour
         UpdateCellPosition();
     }
 
+    #endregion
+
+    #region Smaller Functions
+
+    // Turn world position to grid position
     private void UpdateCellPosition()
     {
         cellPosition = gridLayout.WorldToCell(transform.position);
     }
 
+    // Returns tile in direction tileDir, distance tileDist, relative to You
     private TileBase GetTileHit(Vector2Int tileDir, int tileDist)
     {
         TileBase tile = tilemap.GetTile(cellPosition + (Vector3Int)tileDir * tileDist);
