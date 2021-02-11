@@ -5,26 +5,30 @@ using UnityEngine.Tilemaps;
 
 public class You : MonoBehaviour
 {
-
+    // Setup stuff like useful variables
+    #region Setup stuff
     private Vector2Int groundDir;
     private GridLayout gridLayout;
     private Tilemap tilemap;
     private Vector3Int cellPosition;
+    #endregion
 
+    // Setup more stuff like disable raycast hitting itself
     private void Awake()
     {
         Physics2D.queriesStartInColliders = false; // Disables objects from raycasting themselves
     }
 
-    // Start is called before the first frame update
+    // Initialize stuff, get relavent components
     void Start()
     {
         groundDir = Vector2Int.down;
-        gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>(); // Setup grid getting
+        gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
+        UpdateCellPosition();
     }
 
-    // Update is called once per frame
+    // Keyboard Inputs
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.W))
@@ -53,8 +57,10 @@ public class You : MonoBehaviour
         }
     }
 
-    #region My Functions
+    #region Main Mechanics
 
+    // SLIDE MECHANIC
+    // You slides in input direction until You hits a wall
     private void Slide(Vector2Int slideDir)
     {
         groundDir = slideDir;
@@ -73,14 +79,18 @@ public class You : MonoBehaviour
         UpdateCellPosition();
     }
 
-    private void Jump() // Jump 1 space off of wall
+    // JUMP MECHANIC
+    // You jumps with his feet
+    private void Jump()
     {
         if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
         {
-            TileBase tile = tilemap.GetTile(cellPosition + (Vector3Int)groundDir);
-            Debug.Log("tile on position " + cellPosition + " is " + tile);
-            // if we hit a jumpable object, jump
-            transform.position = transform.position - (Vector3Int)groundDir;
+            TileBase tile = GetTileHit(groundDir, 1);
+            Debug.Log(tile.name);
+            if (tile.name != "AntiJump")
+            {
+                transform.position = transform.position - (Vector3Int)groundDir;
+            }
         }
         UpdateCellPosition();
     }
@@ -88,7 +98,13 @@ public class You : MonoBehaviour
     private void UpdateCellPosition()
     {
         cellPosition = gridLayout.WorldToCell(transform.position);
-    }    
+    }
+
+    private TileBase GetTileHit(Vector2Int tileDir, int tileDist)
+    {
+        TileBase tile = tilemap.GetTile(cellPosition + (Vector3Int)tileDir * tileDist);
+        return tile;
+    }
     
     #endregion
 
