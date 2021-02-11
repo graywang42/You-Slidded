@@ -7,6 +7,9 @@ public class You : MonoBehaviour
 {
 
     private Vector2 groundDir;
+    private GridLayout gridLayout;
+    private Tilemap tilemap;
+    private Vector3Int cellPosition;
 
     private void Awake()
     {
@@ -17,6 +20,8 @@ public class You : MonoBehaviour
     void Start()
     {
         groundDir = Vector2.down;
+        gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>(); // Setup grid getting
+        tilemap = gridLayout.GetComponentInChildren<Tilemap>();
     }
 
     // Update is called once per frame
@@ -64,18 +69,27 @@ public class You : MonoBehaviour
             rayLength++;
         }
         int slideDist = rayLength - 1;
-        transform.position = transform.position + new Vector3(slideDir.x, slideDir.y, 0) * slideDist;
+        transform.position = transform.position + (Vector3)slideDir * slideDist;
+        UpdateCellPosition();
     }
 
     private void Jump() // Jump 1 space off of wall
     {
         if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
         {
+            TileBase tile = tilemap.GetTile(cellPosition + Vector3Int.down);            // WORKING FROM HERE
+            Debug.Log("tile on position " + cellPosition + " is " + tile);              // the code is messy, but it reads the tile sprite
             // if we hit a jumpable object, jump
-            transform.position = transform.position + new Vector3(-groundDir.x, -groundDir.y, 0);
+            transform.position = transform.position - (Vector3)groundDir;
         }
+        UpdateCellPosition();
     }
 
+    private void UpdateCellPosition()
+    {
+        cellPosition = gridLayout.WorldToCell(transform.position);
+    }    
+    
     #endregion
 
 }
