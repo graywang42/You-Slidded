@@ -6,7 +6,7 @@ using UnityEngine.Tilemaps;
 public class You : MonoBehaviour
 {
 
-    private Vector2 groundDir;
+    private Vector2Int groundDir;
     private GridLayout gridLayout;
     private Tilemap tilemap;
     private Vector3Int cellPosition;
@@ -19,7 +19,7 @@ public class You : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        groundDir = Vector2.down;
+        groundDir = Vector2Int.down;
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>(); // Setup grid getting
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
     }
@@ -30,22 +30,22 @@ public class You : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.W))
         {
             transform.rotation = Quaternion.Euler(0, 0, 180);
-            Slide(Vector2.up);
+            Slide(Vector2Int.up);
         }
         if (Input.GetKeyDown(KeyCode.A))
         {
             transform.rotation = Quaternion.Euler(0, 0, 270);
-            Slide(Vector2.left);
+            Slide(Vector2Int.left);
         }
         if (Input.GetKeyDown(KeyCode.S))
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
-            Slide(Vector2.down);
+            Slide(Vector2Int.down);
         }
         if (Input.GetKeyDown(KeyCode.D))
         {
             transform.rotation = Quaternion.Euler(0, 0, 90);
-            Slide(Vector2.right);
+            Slide(Vector2Int.right);
         }
         if (Input.GetKeyDown(KeyCode.Space))
         {
@@ -55,7 +55,7 @@ public class You : MonoBehaviour
 
     #region My Functions
 
-    private void Slide(Vector2 slideDir)
+    private void Slide(Vector2Int slideDir)
     {
         groundDir = slideDir;
         if (!Physics2D.Raycast(transform.position, slideDir, 100)) // Shoot into the void
@@ -69,7 +69,7 @@ public class You : MonoBehaviour
             rayLength++;
         }
         int slideDist = rayLength - 1;
-        transform.position = transform.position + (Vector3)slideDir * slideDist;
+        transform.position = transform.position + (Vector3Int)slideDir * slideDist;
         UpdateCellPosition();
     }
 
@@ -77,10 +77,10 @@ public class You : MonoBehaviour
     {
         if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
         {
-            TileBase tile = tilemap.GetTile(cellPosition + Vector3Int.down);            // WORKING FROM HERE
-            Debug.Log("tile on position " + cellPosition + " is " + tile);              // the code is messy, but it reads the tile sprite
+            TileBase tile = tilemap.GetTile(cellPosition + (Vector3Int)groundDir);
+            Debug.Log("tile on position " + cellPosition + " is " + tile);
             // if we hit a jumpable object, jump
-            transform.position = transform.position - (Vector3)groundDir;
+            transform.position = transform.position - (Vector3Int)groundDir;
         }
         UpdateCellPosition();
     }
