@@ -79,6 +79,10 @@ public class You : MonoBehaviour
         {
             Debug.Log("YOU DIEDED");
         }
+        if (tile.name == "Goal")
+        {
+            Debug.Log("YOU WONDED");
+        }
         int slideDist = rayLength - 1;
         transform.position = transform.position + (Vector3Int)slideDir * slideDist;
         UpdateCellPosition();
