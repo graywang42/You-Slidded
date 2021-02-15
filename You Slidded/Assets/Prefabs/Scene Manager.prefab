@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3719908110198620549}
   - component: {fileID: 3719908110198620550}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Scene Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -43,3 +43,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8673c9efdcbf17a40b1e01eb54f74333, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  You: {fileID: 841444066021636316, guid: 62bc60d270b5e6b408326a310935f57f, type: 3}
