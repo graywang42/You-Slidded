@@ -7,14 +7,15 @@ using UnityEngine.VFX;
 public class GameManager : MonoBehaviour
 {
 
-    private GridLayout gridLayout;
+    private GridLayout grid;
     private Tilemap tilemap;
+    public GameObject You;
 
     // Start is called before the first frame update
     void Start()
     {
-        gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
-        tilemap = gridLayout.GetComponentInChildren<Tilemap>();
+        grid = GameObject.Find("Grid").GetComponent<GridLayout>();
+        tilemap = grid.GetComponentInChildren<Tilemap>();
         SpawnObjects();
     }
 
@@ -33,7 +34,8 @@ public class GameManager : MonoBehaviour
                 TileBase tile = tilemap.GetTile(position);
                 if (tile.name == "You Spawn")
                 {
-                    Debug.Log("Spawn You at " + position); // Instantiate You here
+                    Vector3 offset = new Vector3(0.5f, 0.5f, 0);
+                    Instantiate(You, position + offset, Quaternion.identity);
                 }
                 if (tile.name == "Block")
                 {
