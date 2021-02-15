@@ -74,14 +74,18 @@ public class You : MonoBehaviour
         {
             rayLength++;
         }
+
         TileBase tile = GetTileHit(slideDir, rayLength);
-        if (tile.name == "Spikes")
+        if (tile != null) // We (as far as I know) hit an object, like You or Block
         {
-            Debug.Log("YOU DIEDED");
-        }
-        if (tile.name == "Goal")
-        {
-            Debug.Log("YOU WONDED");
+            if (tile.name == "Spikes")
+            {
+                Debug.Log("YOU DIEDED");
+            }
+            if (tile.name == "Goal")
+            {
+                Debug.Log("YOU WONDED");
+            }
         }
         int slideDist = rayLength - 1;
         transform.position = transform.position + (Vector3Int)slideDir * slideDist;
@@ -90,6 +94,7 @@ public class You : MonoBehaviour
 
     // JUMP MECHANIC
     // You jumps with his feet
+    // MECHANIC NEEDS REVISION TO WORK WITH BLOCKS
     private void Jump()
     {
         if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
