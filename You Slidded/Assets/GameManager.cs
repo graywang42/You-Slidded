@@ -27,6 +27,7 @@ public class GameManager : MonoBehaviour
 
     private void SpawnObjects()
     {
+        Vector3 offset = new Vector3(0.5f, 0.5f, 0);
         foreach (Vector3Int position in tilemap.cellBounds.allPositionsWithin)
         {
             if (tilemap.HasTile(position))
@@ -34,7 +35,7 @@ public class GameManager : MonoBehaviour
                 TileBase tile = tilemap.GetTile(position);
                 if (tile.name == "You Spawn")
                 {
-                    Vector3 offset = new Vector3(0.5f, 0.5f, 0);
+                    tilemap.SetTile(position, null);
                     Instantiate(You, position + offset, Quaternion.identity);
                 }
                 if (tile.name == "Block")
