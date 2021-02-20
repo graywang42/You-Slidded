@@ -11,6 +11,7 @@ public class You : MonoBehaviour
     private GridLayout gridLayout;
     private Tilemap tilemap;
     private Vector3Int cellPosition;
+    public bool hasSlidded;
     #endregion
 
     // Setup more stuff like disable raycast hitting itself
@@ -25,6 +26,7 @@ public class You : MonoBehaviour
         groundDir = Vector2Int.down;
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
+        hasSlidded = false;
         UpdateCellPosition();
     }
 
@@ -59,15 +61,46 @@ public class You : MonoBehaviour
 
     #region Main Mechanics
 
+    /*    // NEW REFACTORED SLIDE MECHANIC
+        private void Slide(Vector2Int slideDir)
+        {
+            Debug.Log("Sliding " + transform);
+            UpdateCellPosition();
+            groundDir = slideDir;
+
+            // Stepping Raycast
+            int rayLength = 1;
+            while (!Physics2D.Raycast(transform.position, slideDir, rayLength))
+            {
+                rayLength++;
+                Debug.Log(rayLength);
+            }
+            int slideDist = rayLength - 1;
+
+            // Check tile
+            TileBase tile = GetTileHit(slideDir, rayLength);
+            if (tile == null) // We hit a non-tile object
+            {
+                // Get gameobject hit
+                RaycastHit2D hit = (Physics2D.Raycast(transform.position, slideDir, rayLength));
+                Debug.Log("We hit " + hit.transform);
+            }
+
+            transform.position = transform.position + (Vector3Int)slideDir * slideDist;
+
+            UpdateCellPosition();
+        }*/
+
     // REFACTORED SLIDE MECHANIC
     private void Slide(Vector2Int slideDir)
     {
         // Basic stuff
+        hasSlidded = false;
+        Debug.Log("Sliding " + transform);
         UpdateCellPosition();
-        Prune();
         groundDir = slideDir;
 
-        // Death mechanic
+        // Death Check
         if (!Physics2D.Raycast(transform.position, slideDir, 100)) // Shoot into the void
         {
             Debug.Log("YOU DIEDED");
@@ -82,10 +115,31 @@ public class You : MonoBehaviour
         }
         int slideDist = rayLength - 1;
 
+        // Prune check
+        if (transform.childCount > 0) // If child !hasSlidded, prune
+        {
+            You[] comps = GetComponentsInChildren<You>();
+            foreach (You comp in comps)
+            {
+                if (comp.gameObject.transform.parent != null)
+                {
+                    Debug.Log(comp.name + " hasSlidded = " + comp.hasSlidded);
+                    if (!comp.hasSlidded)
+                    {
+                        Prune();
+                        Debug.Log("Pruning");
+                    }
+                }
+            }
+        }
+
         // Check tile
         TileBase tile = GetTileHit(slideDir, rayLength);
+
+
         if (tile != null) // We hit a real tile
         {
+            Debug.Log("Hit tile");
             if (tile.name == "Spikes")
             {
                 Debug.Log("YOU DIEDED");
@@ -95,72 +149,27 @@ public class You : MonoBehaviour
                 Debug.Log("YOU WONDED");
             }
             transform.position = transform.position + (Vector3Int)slideDir * slideDist;
-        } else // We hit a null space, aka a gameobject
+        }
+        else // We hit a null space, aka a gameobject
         {
-            // Attach to hit as child
             RaycastHit2D hit = (Physics2D.Raycast(transform.position, slideDir, rayLength));
-            transform.parent = hit.transform;
-            transform.position = hit.transform.position - (Vector3Int)slideDir;
+            Debug.Log("Hit " + hit.transform);
+            // Parent logic
+            // If the parent hasn't moved yet, we want to move with it
+            if (!hit.transform.gameObject.GetComponent<You>().hasSlidded)
+            {
+                Debug.Log("Attaching to " + hit.transform);
+                transform.parent = hit.transform;
+                transform.position = hit.transform.position - (Vector3Int)slideDir;
+            }
+            else
+            {
+                transform.position = hit.transform.position - (Vector3Int)slideDir;
+            }
         }
         UpdateCellPosition();
+        hasSlidded = true;
     }
-
-   /* // SLIDE MECHANIC
-    // You slides in input direction until You hits a wall
-    private void Slide(Vector2Int slideDir)
-    {
-        Debug.Log("Sliding " + transform);
-        // Prune Children method
-        UpdateCellPosition();
-        groundDir = slideDir;
-        if (!Physics2D.Raycast(transform.position, slideDir, 100)) // Shoot into the void
-        {
-            Debug.Log("YOU DIEDED");
-            return;
-        }
-        int rayLength = 1;
-        while (!Physics2D.Raycast(transform.position, slideDir, rayLength))
-        {
-            rayLength++;
-            // Debug.Log("Raylength is " + rayLength);
-        }
-
-        // NOTE TO SELF
-        *//* Idk what's going on, BUT the transforms are strange. The transform of a child is relative to its parent, so we see
-         * whole numbers for transform position even though all grids are on half numbers.
-         * This seems to be where the glitch is kind of coming from (not sure)
-         * A quick fix seems to be by using the Raycast that attaches the child to the parent. For some reason, it returns the
-         * actual location of the parent's transform, so that could work. Totally not sure why the looping raycast doesn't work.
-         * Honestly, this whole part of the code is pretty janky.
-        *//*
-
-        // Slide to location
-        int slideDist = rayLength - 1;
-        transform.position = transform.position + (Vector3Int)slideDir * slideDist;
-        Debug.Log("New Position " + transform.position);
-
-        TileBase tile = GetTileHit(slideDir, rayLength);
-
-        // Make parent child relationship
-        if (tile == null) // We (as far as I know) hit an object, like You or Block
-        {
-            RaycastHit2D hit = (Physics2D.Raycast(transform.position, slideDir, rayLength));
-            Debug.Log("Hit " + hit.transform + " at " + hit.transform.position);
-            transform.parent = hit.transform;
-        }
-        if (tile != null) // We hit a real tile
-        {
-            if (tile.name == "Spikes")
-            {
-                Debug.Log("YOU DIEDED");
-            }
-            if (tile.name == "Goal")
-            {
-                Debug.Log("YOU WONDED");
-            }
-        }
-        UpdateCellPosition();
-    }*/
 
     // JUMP MECHANIC
     // You jumps with his feet
