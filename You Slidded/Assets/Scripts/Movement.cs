@@ -5,11 +5,10 @@ using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    private Vector2Int groundDir;
+    public Vector2Int groundDir;
     private GridLayout gridLayout;
     private Tilemap tilemap;
     private Vector3Int cellPosition;
-    public bool hasSlidded;
 
     // Start is called before the first frame update
     void Start()
@@ -26,7 +25,6 @@ public class Movement : MonoBehaviour
         groundDir = Vector2Int.down;
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
-        hasSlidded = false;
         UpdateCellPosition();
     }
 
@@ -131,7 +129,7 @@ public class Movement : MonoBehaviour
 
     #region Smaller Functions
     // Turn world position to grid position
-    private void UpdateCellPosition()
+    public void UpdateCellPosition()
     {
         cellPosition = gridLayout.WorldToCell(transform.position);
     }
