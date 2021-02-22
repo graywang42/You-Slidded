@@ -20,11 +20,15 @@ public class EventManager : MonoBehaviour
     public event Action pressSpace;
     public event Action prune;
     public event Action updateDirection;
+    public event Action updateCellPosition;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        if (updateCellPosition != null)
+        {
+            updateCellPosition();
+        }
     }
 
     // Update is called once per frame
@@ -44,6 +48,10 @@ public class EventManager : MonoBehaviour
             {
                 updateDirection();
             }
+            if (updateCellPosition != null)
+            {
+                updateCellPosition();
+            }
         } else if (Input.GetKeyDown(KeyCode.A))
         {
             if (pressA != null) // Make sure the action is not null (I think this means it has no subscribers, which creates an error if null)
@@ -57,6 +65,10 @@ public class EventManager : MonoBehaviour
             if (updateDirection != null)
             {
                 updateDirection();
+            }
+            if (updateCellPosition != null)
+            {
+                updateCellPosition();
             }
         } else if (Input.GetKeyDown(KeyCode.S))
         {
@@ -72,6 +84,10 @@ public class EventManager : MonoBehaviour
             {
                 updateDirection();
             }
+            if (updateCellPosition != null)
+            {
+                updateCellPosition();
+            }
         } else if (Input.GetKeyDown(KeyCode.D))
         {
             if (pressD != null) // Make sure the action is not null (I think this means it has no subscribers, which creates an error if null)
@@ -86,6 +102,10 @@ public class EventManager : MonoBehaviour
             {
                 updateDirection();
             }
+            if (updateCellPosition != null)
+            {
+                updateCellPosition();
+            }
         } else if (Input.GetKeyDown(KeyCode.Space))
         {
             if (pressSpace != null)
@@ -95,6 +115,10 @@ public class EventManager : MonoBehaviour
             if (prune != null)
             {
                 prune();
+            }
+            if (updateCellPosition != null)
+            {
+                updateCellPosition();
             }
         }
     }

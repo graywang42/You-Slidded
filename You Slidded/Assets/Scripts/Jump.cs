@@ -15,6 +15,7 @@ public class Jump : MonoBehaviour
     void Start()
     {
         EventManager.what.pressSpace += pressSpace;
+        EventManager.what.updateCellPosition += updateCellPosition;
 
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
@@ -34,7 +35,6 @@ public class Jump : MonoBehaviour
 
     private void Jumpded()
     {
-        UpdateCellPosition();
         Movement movement = transform.GetComponent<Movement>();
         groundDir = movement.groundDir;
         if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
@@ -45,11 +45,10 @@ public class Jump : MonoBehaviour
                 transform.position = transform.position - (Vector3Int)groundDir;
             }
         }
-        UpdateCellPosition();
     }
 
     // Turn world position to grid position
-    public void UpdateCellPosition()
+    public void updateCellPosition()
     {
         cellPosition = gridLayout.WorldToCell(transform.position);
     }
