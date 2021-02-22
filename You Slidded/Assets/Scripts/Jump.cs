@@ -11,6 +11,11 @@ public class Jump : MonoBehaviour
     private Tilemap tilemap;
     private Vector3Int cellPosition;
 
+    private void Awake()
+    {
+        Physics2D.queriesStartInColliders = false; // Disables objects from raycasting themselves
+    }
+
     // Start is called before the first frame update
     void Start()
     {

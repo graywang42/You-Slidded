@@ -5,9 +5,9 @@ using UnityEngine.Tilemaps;
 
 public class Movement : MonoBehaviour
 {
-    public Vector2Int groundDir;
     private GridLayout gridLayout;
     private Tilemap tilemap;
+    public Vector2Int groundDir;
     private Vector3Int cellPosition;
 
     private void Awake()
@@ -77,12 +77,6 @@ public class Movement : MonoBehaviour
     }
     #endregion
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     // Slide Method
     private void Slide(Vector2Int slideDir)
     {
@@ -100,7 +94,6 @@ public class Movement : MonoBehaviour
         while (!Physics2D.Raycast(transform.position, slideDir, rayLength))
         {
             rayLength++;
-            // Debug.Log(rayLength);
         }
         int slideDist = rayLength - 1;
 
@@ -108,7 +101,6 @@ public class Movement : MonoBehaviour
         TileBase tile = GetTileHit(slideDir, rayLength);
         if (tile == null) // We hit a non-tile object
         {
-            // Get gameobject hit
             RaycastHit2D hit = (Physics2D.Raycast(transform.position, slideDir, rayLength));
             transform.parent = hit.transform;
             transform.position = hit.transform.position - (Vector3Int)slideDir;
@@ -117,11 +109,11 @@ public class Movement : MonoBehaviour
         {
             if (gameObject.tag == "Player")
             {
-                if (tile.name == "Spikes")
+                if (tile.name == "Spikes") // Spike check
                 {
                     Debug.Log("YOU DIEDED");
                 }
-                if (tile.name == "Goal")
+                if (tile.name == "Goal") // Goal check
                 {
                     Debug.Log("YOU WONDED");
                 }

@@ -20,12 +20,6 @@ public class SceneManager : MonoBehaviour
         SpawnObjects();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     private void SpawnObjects()
     {
         Vector3 offset = new Vector3(0.5f, 0.5f, 0);
