@@ -31,6 +31,8 @@ public class Movement : MonoBehaviour
         groundDir = Vector2Int.down;
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
+
+        updateCellPosition();
     }
 
     #region Event Triggers

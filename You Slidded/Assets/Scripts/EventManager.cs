@@ -25,10 +25,7 @@ public class EventManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        if (updateCellPosition != null)
-        {
-            updateCellPosition();
-        }
+
     }
 
     // Update is called once per frame
