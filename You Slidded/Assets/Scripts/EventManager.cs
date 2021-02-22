@@ -17,6 +17,7 @@ public class EventManager : MonoBehaviour
     public event Action pressA;
     public event Action pressS;
     public event Action pressD;
+    public event Action pressSpace;
     public event Action prune;
     public event Action updateDirection;
 
@@ -43,8 +44,7 @@ public class EventManager : MonoBehaviour
             {
                 updateDirection();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.A))
+        } else if (Input.GetKeyDown(KeyCode.A))
         {
             if (pressA != null) // Make sure the action is not null (I think this means it has no subscribers, which creates an error if null)
             {
@@ -58,8 +58,7 @@ public class EventManager : MonoBehaviour
             {
                 updateDirection();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.S))
+        } else if (Input.GetKeyDown(KeyCode.S))
         {
             if (pressS != null) // Make sure the action is not null (I think this means it has no subscribers, which creates an error if null)
             {
@@ -73,8 +72,7 @@ public class EventManager : MonoBehaviour
             {
                 updateDirection();
             }
-        }
-        if (Input.GetKeyDown(KeyCode.D))
+        } else if (Input.GetKeyDown(KeyCode.D))
         {
             if (pressD != null) // Make sure the action is not null (I think this means it has no subscribers, which creates an error if null)
             {
@@ -87,6 +85,16 @@ public class EventManager : MonoBehaviour
             if (updateDirection != null)
             {
                 updateDirection();
+            }
+        } else if (Input.GetKeyDown(KeyCode.Space))
+        {
+            if (pressSpace != null)
+            {
+                pressSpace();
+            }
+            if (prune != null)
+            {
+                prune();
             }
         }
     }

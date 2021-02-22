@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
@@ -13,9 +14,16 @@ public class Jump : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EventManager.what.pressSpace += pressSpace;
+
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
-        UpdateCellPosition();
+        // UpdateCellPosition();
+    }
+
+    private void pressSpace()
+    {
+        Jumpded();
     }
 
     // Update is called once per frame

@@ -4,12 +4,13 @@ using UnityEngine;
 using UnityEngine.Tilemaps;
 using UnityEngine.VFX;
 
-public class GameManager : MonoBehaviour
+public class SceneManager : MonoBehaviour
 {
 
     private GridLayout grid;
     private Tilemap tilemap;
     public GameObject You;
+    public GameObject Block;
 
     // Start is called before the first frame update
     void Start()
@@ -40,7 +41,8 @@ public class GameManager : MonoBehaviour
                 }
                 if (tile.name == "Block")
                 {
-                    Debug.Log("Spawn Block at " + position); // Instantiate Blocks here
+                    tilemap.SetTile(position, null);
+                    Instantiate(Block, position + offset, Quaternion.identity);
                 }
             }
         }

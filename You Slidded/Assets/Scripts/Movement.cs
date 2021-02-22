@@ -10,6 +10,11 @@ public class Movement : MonoBehaviour
     private Tilemap tilemap;
     private Vector3Int cellPosition;
 
+    private void Awake()
+    {
+        Physics2D.queriesStartInColliders = false; // Disables objects from raycasting themselves
+    }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -47,7 +52,6 @@ public class Movement : MonoBehaviour
     }
     private void prune()
     {
-        Debug.Log("Prune test");
         transform.DetachChildren();
     }
     private void updateDirection()
@@ -80,7 +84,6 @@ public class Movement : MonoBehaviour
     // Slide Method
     private void Slide(Vector2Int slideDir)
     {
-        Debug.Log("Sliding " + transform);
         UpdateCellPosition();
         groundDir = slideDir;
 
@@ -106,24 +109,24 @@ public class Movement : MonoBehaviour
         {
             // Get gameobject hit
             RaycastHit2D hit = (Physics2D.Raycast(transform.position, slideDir, rayLength));
-            Debug.Log("We hit tile " + hit.transform);
             transform.parent = hit.transform;
             transform.position = hit.transform.position - (Vector3Int)slideDir;
 
         } else // We hit a tile
         {
-            Debug.Log("Hit tile");
-            if (tile.name == "Spikes")
+            if (gameObject.tag == "Player")
             {
-                Debug.Log("YOU DIEDED");
-            }
-            if (tile.name == "Goal")
-            {
-                Debug.Log("YOU WONDED");
+                if (tile.name == "Spikes")
+                {
+                    Debug.Log("YOU DIEDED");
+                }
+                if (tile.name == "Goal")
+                {
+                    Debug.Log("YOU WONDED");
+                }
             }
             transform.position = transform.position + (Vector3Int)slideDir * slideDist;
         }
-
         UpdateCellPosition();
     }
 
