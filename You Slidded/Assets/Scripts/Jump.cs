@@ -19,7 +19,6 @@ public class Jump : MonoBehaviour
 
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
-        // UpdateCellPosition();
     }
 
     private void pressSpace()
@@ -35,16 +34,43 @@ public class Jump : MonoBehaviour
 
     private void Jumpded()
     {
+        // Get direction of ground from Movement script
         Movement movement = transform.GetComponent<Movement>();
         groundDir = movement.groundDir;
-        if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
+        int iteratingCenter = 0;
+        // Need to update logic for smarter jump.
+        // Shoot raycast down. If null, can't jump. If antijump, can't jump. If object, become that object's child (or just assume we will only have one jumping character)
+        // While hit object, adopt hit as child, and increment ray origin. Loop ends when we have hit all objects (thus adopted) in our jumping direction.
+        // Final check for valid jump. If next ray increment is null, we can jump. If next ray increment is a wall, we can't jump.
+
+        if (Physics2D.Raycast(transform.position, groundDir, 1)) // We're not floating
+        {
+            TileBase tile = GetTileHit(groundDir, 1);
+            if (tile.name != "AntiJump") // We're on a jumpable block
+            {
+                RaycastHit2D hit = (Physics2D.Raycast(transform.position, -groundDir, 1)); // Check space above
+                while (hit.transform.gameObject.tag == "Block") // There is a block above us // THERES AN ERROR HERE
+                {
+                    // Attach object as child
+                    Debug.Log("Attach block as child");
+                    iteratingCenter++;
+                    hit = (Physics2D.Raycast(transform.position - ((Vector3Int)groundDir * iteratingCenter), -groundDir, 1));
+                }
+                if (hit.transform == null) // The end of things is null
+                {
+                    transform.position = transform.position - (Vector3Int)groundDir;
+                }
+            }
+        }
+
+/*        if (Physics2D.Raycast(transform.position, groundDir, 1) && !Physics2D.Raycast(transform.position, -groundDir, 1))
         {
             TileBase tile = GetTileHit(groundDir, 1);
             if (tile.name != "AntiJump")
             {
                 transform.position = transform.position - (Vector3Int)groundDir;
             }
-        }
+        }*/
     }
 
     // Turn world position to grid position

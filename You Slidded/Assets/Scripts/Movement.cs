@@ -25,12 +25,12 @@ public class Movement : MonoBehaviour
         EventManager.what.pressD += pressD;
         EventManager.what.prune += prune;
         EventManager.what.updateDirection += updateDirection;
+        EventManager.what.updateCellPosition += updateCellPosition;
 
         // Initialize
         groundDir = Vector2Int.down;
         gridLayout = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = gridLayout.GetComponentInChildren<Tilemap>();
-        UpdateCellPosition();
     }
 
     #region Event Triggers
@@ -84,7 +84,6 @@ public class Movement : MonoBehaviour
     // Slide Method
     private void Slide(Vector2Int slideDir)
     {
-        UpdateCellPosition();
         groundDir = slideDir;
 
         // Death Check
@@ -127,12 +126,11 @@ public class Movement : MonoBehaviour
             }
             transform.position = transform.position + (Vector3Int)slideDir * slideDist;
         }
-        UpdateCellPosition();
     }
 
     #region Smaller Functions
     // Turn world position to grid position
-    public void UpdateCellPosition()
+    public void updateCellPosition()
     {
         cellPosition = gridLayout.WorldToCell(transform.position);
     }
