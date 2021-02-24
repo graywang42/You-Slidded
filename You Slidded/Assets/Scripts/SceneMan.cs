@@ -16,18 +16,14 @@ public class SceneMan : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        EventManager.what.restart += RestartLevel;
+        EventManager.what.youWonded += YouWonded;
+
         grid = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = grid.GetComponentInChildren<Tilemap>();
         SpawnObjects();
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
-        }
-    }
 
     private void SpawnObjects()
     {
@@ -49,5 +45,18 @@ public class SceneMan : MonoBehaviour
                 }
             }
         }
+    }
+
+    private void RestartLevel()
+    {
+        // Play somee kind of restart/death animation
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+    }
+
+    private void YouWonded()
+    {
+        Debug.Log("YOU WONDED");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+        // Advance to the next scene or return to some kind of level select hub
     }
 }

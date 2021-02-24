@@ -22,6 +22,9 @@ public class EventManager : MonoBehaviour
     public event Action updateDirection;
     public event Action updateCellPosition;
 
+    public event Action restart;
+    public event Action youWonded;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -117,6 +120,25 @@ public class EventManager : MonoBehaviour
             {
                 updateCellPosition();
             }
+        } else if (Input.GetKeyDown(KeyCode.R))
+        {
+            RestartLevel();
+        }
+    }
+
+    public void RestartLevel()
+    {
+        if (restart != null)
+        {
+            restart();
+        }
+    }
+
+    public void YouWonded()
+    {
+        if (youWonded != null)
+        {
+            youWonded();
         }
     }
 }

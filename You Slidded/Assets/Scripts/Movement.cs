@@ -111,11 +111,11 @@ public class Movement : MonoBehaviour
             {
                 if (tile.name == "Spikes") // Spike check
                 {
-                    Debug.Log("YOU DIEDED");
+                    EventManager.what.RestartLevel();
                 }
                 if (tile.name == "Goal") // Goal check
                 {
-                    Debug.Log("YOU WONDED");
+                    EventManager.what.YouWonded();
                 }
             }
             transform.position = transform.position + (Vector3Int)slideDir * slideDist;
