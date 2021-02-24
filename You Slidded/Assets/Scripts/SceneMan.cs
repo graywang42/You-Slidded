@@ -1,10 +1,11 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.Tilemaps;
 using UnityEngine.VFX;
 
-public class SceneManager : MonoBehaviour
+public class SceneMan : MonoBehaviour
 {
 
     private GridLayout grid;
@@ -18,6 +19,14 @@ public class SceneManager : MonoBehaviour
         grid = GameObject.Find("Grid").GetComponent<GridLayout>();
         tilemap = grid.GetComponentInChildren<Tilemap>();
         SpawnObjects();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        }
     }
 
     private void SpawnObjects()
