@@ -86,6 +86,7 @@ public class Movement : MonoBehaviour
         if (!Physics2D.Raycast(transform.position, slideDir, 100)) // Shoot into the void
         {
             Debug.Log("YOU DIEDED");
+            EventManager.what.RestartLevel();
             return;
         }
 

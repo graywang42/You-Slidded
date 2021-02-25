@@ -6,15 +6,18 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Level 1.unity
+    path: Assets/Scenes/Jumping Basics/Level 0.unity
     guid: e9ab920049cc92c4fae6ae9235f34628
   - enabled: 1
-    path: Assets/Scenes/Level 2.unity
+    path: Assets/Scenes/Jumping Basics/Level 1.unity
     guid: 674dbd6d4e2bc2a4a846933c06209ed5
   - enabled: 1
-    path: Assets/Scenes/Level 3.unity
+    path: Assets/Scenes/Jumping Basics/Level 2.unity
     guid: dc7285a62cf733c46ae04f6e3e3e634a
   - enabled: 1
-    path: Assets/Scenes/Level 4.unity
+    path: Assets/Scenes/Jumping Basics/Level 3.unity
+    guid: 7c7e07951d3553046a238ceb762ffa60
+  - enabled: 1
+    path: Assets/Scenes/Jumping Basics/Level 4.unity
     guid: 4ebf7f89ba88e2744a0a68026131d955
   m_configObjects: {}
