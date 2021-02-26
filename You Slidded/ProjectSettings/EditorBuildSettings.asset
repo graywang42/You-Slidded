@@ -20,4 +20,13 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Jumping Basics/Level 4.unity
     guid: 4ebf7f89ba88e2744a0a68026131d955
+  - enabled: 1
+    path: Assets/Scenes/Spike Basics/Spike Intro.unity
+    guid: 217467b9bcd8cc44d836eb1134512bb0
+  - enabled: 1
+    path: Assets/Scenes/Spike Basics/Spike Level Easy.unity
+    guid: 57705043c3b8c1744a11a5106dea4637
+  - enabled: 1
+    path: Assets/Scenes/Spike Basics/Spike Level Medium.unity
+    guid: 87bb66d98f15a544eb9f9a9d8b8c52cf
   m_configObjects: {}
