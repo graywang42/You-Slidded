@@ -28,7 +28,7 @@ public class SceneMan : MonoBehaviour
 
     private void Update()
     {
-        if (hasWonded && Input.GetKeyDown(KeyCode.Space))
+        if (hasWonded) // && Input.GetKeyDown(KeyCode.Space)
         {
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
