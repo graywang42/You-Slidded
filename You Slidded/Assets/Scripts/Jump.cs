@@ -43,6 +43,7 @@ public class Jump : MonoBehaviour
         int iteratingCenter = 0;
 
         // Check if we're grounded
+        // Outstanding Bug: If you begin on an antijump block, you can jump off of it as your very first input.
         if (Physics2D.Raycast(transform.position, groundDir, 1))
         {
             TileBase tile = GetTileHit(groundDir, 1);

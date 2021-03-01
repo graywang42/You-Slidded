@@ -39,11 +39,11 @@ EditorBuildSettings:
     path: Assets/Scenes/AntiJump Basics/AntiJump Easy.unity
     guid: aa4775c20fb949f4ab0fd3649ce62444
   - enabled: 1
-    path: Assets/Scenes/AntiJump Basics/AntiJump Boss.unity
-    guid: 81bc830b069099f46adc278390256686
-  - enabled: 1
     path: Assets/Scenes/Block Basics/Block Intro.unity
     guid: 14fec68fd29ba33458bd60c8418dbe96
+  - enabled: 1
+    path: Assets/Scenes/Block Basics/Goalie Block.unity
+    guid: 8450e339d1b23ab449b3e53a42080b05
   - enabled: 1
     path: Assets/Scenes/Block Basics/Reverse Jail Break.unity
     guid: 3f9f46164926b654f99535a2ee82d080
@@ -53,4 +53,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Block Basics/Jail Break.unity
     guid: bf209296b2aea5d4ea6bb0b68f273cd3
+  - enabled: 1
+    path: Assets/Scenes/Block Basics/Two Blocks.unity
+    guid: 72bf16ac0e9c94c4d9de321415ef4ba9
+  - enabled: 1
+    path: Assets/Scenes/Hard Levels/AntiJump Boss.unity
+    guid: 81bc830b069099f46adc278390256686
+  - enabled: 1
+    path: Assets/Scenes/Hard Levels/Hard Balance.unity
+    guid: 2ee2a116c78371a44ae90c101e476095
+  - enabled: 1
+    path: Assets/Scenes/Hard Levels/Car.unity
+    guid: 5091ee3ae6d309c4097c8b9070c86da5
   m_configObjects: {}
